@@ -19,14 +19,14 @@ const getAll = async () => {
 };
 
 const getById = async (id) => {
-  const query = `SELECT sal.date, pro.id AS product_id, sap.quantity FROM sales_products AS sap
+  const query = `SELECT sal.date, pro.id AS productId, sap.quantity FROM sales_products AS sap
   INNER JOIN sales as sal
   ON sal.id = sap.sale_id
   INNER JOIN products as pro 
   ON pro.id = sap.product_id
   WHERE sal.id = ?;`;
   const [result] = await connection.execute(query, [id]);
-  return result.map(toCamelCase);
+  return result;
 };
 
 module.exports = {

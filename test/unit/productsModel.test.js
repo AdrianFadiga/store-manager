@@ -84,19 +84,19 @@ describe('Busca produto por id', () => {
     });
 
   });
-  describe('Retorna null quando não existe produto com o id', () => {
-    const resultExecute = [];
-    before(() => {
-      sinon.stub(connection, 'execute')
-      .resolves(resultExecute);
-    });
-    after(() => {
-      connection.execute.restore();
-    })    
-      it('Retorna null caso não exista um produto com o determinado id', async () => {
-        const result = await productsModel.getById();
-        expect(result).to.be.equal(null);
-      })
-  });
+  // describe('Retorna null quando não existe produto com o id', () => {
+  //   const resultExecute = [];
+  //   before(() => {
+  //     sinon.stub(connection, 'execute')
+  //     .resolves(resultExecute);
+  //   });
+  //   after(() => {
+  //     connection.execute.restore();
+  //   })    
+  //     it('Retorna null caso não exista um produto com o determinado id', async () => {
+  //       const result = await productsModel.getById();
+  //       expect(result).to.be.equal(null);
+  //     })
+  // });
 });
 
