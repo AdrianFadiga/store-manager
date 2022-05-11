@@ -19,7 +19,7 @@ const addProduct = async (req, res, next) => {
   try {
     const { name, quantity } = req.body;
     const result = await productsService.addProduct(name, quantity);
-    return res.status(200).json(result);
+    return res.status(201).json(result);
   } catch (err) {
     next(err);
   }

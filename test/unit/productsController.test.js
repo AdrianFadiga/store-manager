@@ -120,61 +120,10 @@ describe('Chamada do controller getById - Products', () => {
  });
  
 describe('Testa o método addProduct da camada Controller - Products', () => {
-  // describe('Quando a requisição é feita sem o atribuito quantity', () => {
-  //   const request = {
-  //     body: {
-  //       name: 'xablau'
-  //     }
-  //   };
-  //   const response = {};
-  //   const next = sinon.stub().returns();
-  //   before(() => {
-  //     response.status = sinon.stub().returns(response);
-  //     response.json = sinon.stub().returns();
-  //     sinon.stub(productsService, 'addProduct').throws({status: 400, message: '"quantity" is required'})
-  //   });
-  //   after(() => {
-  //     productsService.addProduct.restore();
-  //   })
-  //   it('Retorna o status 400', async () => {
-  //     await productsController.addProduct(request, response, next);
-  //     expect(next.calledWith({status: 400, message: '"quantity" is required'})).to.be.equal(true);        
-  //   });
-  //   it('Retonar a mensagem "quantity" is required', async () => {
-  //     await productsController.addProduct(request, response, next);
-  //     expect(next.calledWith({status: 400, message: '"quantity" is required'})).to.be.equal(true);
-  //   });
-  // });
-  // describe('Quando a requisição é feita sem o atribuito name', () => {
-  //   const request = {
-  //     body: {
-  //       quantity: 10,
-  //     }
-  //   }
-  //   const response = {};
-  //   const next = sinon.stub().returns();
-  //   before(() => {
-  //     response.status = sinon.stub().returns(response);
-  //     response.json = sinon.stub().returns();
-  //     sinon.stub(productsService, 'addProduct').throws({status: 400, message: '"name" is required'})
-  //   });
-  //   after(() => {
-  //     productsService.addProduct.restore();
-  //   })
-  //   it('Retorne o status 400', async () => { 
-  //     await productsController.addProduct(request, response, next);
-  //     expect(next.calledWith({status: 400, message: '"name" is required'})).to.be.equal(true);
-  //   });
-  //   it('Retorna a mensagem "name" is required', async () => {
-  //     await productsController.addProduct(request, response, next);
-  //     expect(next.calledWith({status: 400, message: '"name" is required'})).to.be.equal(true);
-  //   });
-  // });
-  // Continuar daqui!
   describe('Quando a requisição é feita com o atributo name já cadastrado', () => {
     const next = sinon.stub().returns();
     const errorMessage = {message: "Product already exists", status: 409}
-    const request = {};
+    const request = {body: {name: 'Xablau', quantity: 15}};
     const response = {};
     before(() => {
       response.status = sinon.stub().returns(response);
@@ -186,7 +135,25 @@ describe('Testa o método addProduct da camada Controller - Products', () => {
     })
     it('Retorna um erro com a mensagem "Product already exists" e o status 409', async () => {
       await productsController.addProduct(request, response, next);
-      expect(next.calledWith(errorMessage));
+      expect(next.calledWith(errorMessage)).to.equal(true);
+    });
+  });
+  describe('Quando a requisição é realizada com sucesso', () => {
+    const request = {body: {name: "Chinelão do Yang", quantity: 15}};
+    const response = {};
+    const responseObj = {id: 3, name: "Chinelão do Yang", quantity: 15};
+    before(() => {
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+      sinon.stub(productsService, 'addProduct')
+      .resolves(responseObj);
+    });
+    after(() => {
+      productsService.addProduct.restore();
+    })
+    it('Retorna um objeto JSON com o status 201', async () => {
+      await productsController.addProduct(request, response);
+      expect(response.status.calledWith(201)).to.equal(true);
     });
   })
 });
