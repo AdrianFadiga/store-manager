@@ -72,14 +72,63 @@ describe('Chamada do controller getAll - Sales', () => {
   });
 });
 
-// VOLTAR DOS CASOS DE TESTE DAQUI - COBERTURA DAS LINHAS 9/14;
-
 describe('Chamada do controller getById - Sales', () => {
  describe('Quando encontra a venda com o id', () => {
-   it('', () => {})
+   const request = {
+     params: 1,
+   };
+   const response = {};
+   const salesMock = [
+    {
+      "date": "2022-05-11T09:04:48.000Z",
+      "productId": 1,
+      "quantity": 5
+    },
+    {
+      "date": "2022-05-11T09:04:48.000Z",
+      "productId": 2,
+      "quantity": 10
+    }
+  ];
+  before(() => {
+    request.body = {};
+    response.status = sinon.stub()
+      .returns(response);
+    response.json = sinon.stub()
+      .returns();
+    sinon.stub(salesService, 'getById')
+      .resolves(salesMock);
+  });
+  after(() => {
+    salesService.getById.restore();
+  });
+   it('Retorna status code 200', async () => {
+     await salesController.getById(request, response);
+     expect(response.status.calledWith(200)).to.equal(true);
+   });
+   it('Retorna um json contendo um array', async () => {
+     await salesController.getById(request, response);
+     expect(response.json.calledWith(sinon.match.array)).to.be.equal(true);
+   });
  });
  describe('Quando não encontra a venda com o id', () => {
-
+   const request = {params: 999};
+   const response = {};
+   const errorObj = {status: 404, message: "Sale not found"};
+   const next = sinon.stub().returns();
+   before(() => {
+     response.status = sinon.stub().returns(response);
+     response.json = sinon.stub().returns();
+     sinon.stub(salesService, 'getById').throws(errorObj);
+   });
+   after(() => {
+     salesService.getById.restore();
+   });
+   it('Retorna status code 404', async () => { 
+     await salesController.getById(request, response, next);
+     expect(next.calledWith(errorObj)).to.be.equal(true);
+   });
+   it('Retorna um json contendo a mensagem "Sale not found"', async () => { })
  }) 
 })
 describe('Chamada do controller addSale - Sales', () => {
