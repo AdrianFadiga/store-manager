@@ -12,7 +12,10 @@ const getById = async (id) => {
   return result[0];
 };
 
+const getByName = async () => ({ name: 'oi' });
+
 module.exports = {
   getAll,
   getById,
+  getByName,
 };

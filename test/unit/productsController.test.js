@@ -171,11 +171,11 @@ describe('Testa o método addProduct da camada Controller - Products', () => {
   //   });
   // });
   // Continuar daqui!
-  describe('Quando a requisição é feita com o atributo name igual um já cadastrado', () => {
-    const request = {body: {name: "Xablau", quantity: 5}};
-    const response = {};
+  describe('Quando a requisição é feita com o atributo name já cadastrado', () => {
     const next = sinon.stub().returns();
     const errorMessage = {message: "Product already exists", status: 409}
+    const request = {};
+    const response = {};
     before(() => {
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
