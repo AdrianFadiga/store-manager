@@ -15,7 +15,17 @@ const getById = async (req, res, next) => {
   }
 };
 
+const addSale = async (req, res, next) => {
+  try {
+    const { quantity, productId } = req.body;
+    const result = await salesService.addSale(quantity, productId);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
+  addSale,
 };
