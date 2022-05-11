@@ -124,13 +124,13 @@ describe('Chamada do controller getById - Sales', () => {
    after(() => {
      salesService.getById.restore();
    });
-   it('Retorna status code 404', async () => { 
+   it('Retorna status code 404 e a mensagem "Sale not found"', async () => { 
      await salesController.getById(request, response, next);
      expect(next.calledWith(errorObj)).to.be.equal(true);
    });
-   it('Retorna um json contendo a mensagem "Sale not found"', async () => { })
  }) 
-})
+});
+
 describe('Chamada do controller addSale - Sales', () => {
   describe('Quando a requisição é feita sem o atribuito quantity', () => {
     const request = {

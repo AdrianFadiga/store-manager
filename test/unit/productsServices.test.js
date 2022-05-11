@@ -41,6 +41,7 @@ describe('Testa o método getAll da camada services - Products', () => {
     });
   });
 });
+
 describe('Testa o método getById da camada services - Products', () => {
   describe('Quando não existem produtos cadastrados', () => {
     before(() => {
@@ -89,4 +90,3 @@ describe('Testa o método getById da camada services - Products', () => {
 
   });
 });
-

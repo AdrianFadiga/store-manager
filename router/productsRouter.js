@@ -1,9 +1,12 @@
 const router = require('express').Router();
 const productsController = require('../controllers/productsController');
+const middleware = require('../middlewares');
 
 router.get('/:id', productsController.getById);
 
-router.post('/', productsController.addProduct);
+router.post('/', middleware.validateName, 
+middleware.validateQuantity, 
+ productsController.addProduct);
 
 router.get('/', productsController.getAll);
 

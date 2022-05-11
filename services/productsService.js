@@ -17,8 +17,6 @@ const getById = async (id) => {
 };
 
 const addProduct = async (name, quantity) => {
-  if (!name) throw objGenerator('"name" is required', 400);
-  if (!quantity) throw objGenerator('"quantity" is required', 400);
 };
 
 module.exports = {

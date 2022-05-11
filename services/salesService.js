@@ -17,9 +17,6 @@ const getById = async (id) => {
 };
 
 const addSale = async (quantity, productId) => {
-  if (quantity <= 0) throw objGenerator('"quantity" must be greater than or equal to 1', 422);  
-  if (!productId) throw objGenerator('"productId" is required', 400);
-  if (!quantity) throw objGenerator('"quantity" is required', 400);
 };
 
 module.exports = {
