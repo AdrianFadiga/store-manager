@@ -19,6 +19,8 @@ const getById = async (id) => {
 const addProduct = async (name, quantity) => {
   const result = await productsModel.getByName(name);
   if (result) throw objGenerator('Product already exists', 409);
+  const addToDB = await productsModel.addProduct(name, quantity);
+  return addToDB;
 };
 
 module.exports = {

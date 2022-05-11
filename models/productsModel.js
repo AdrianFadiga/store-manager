@@ -12,10 +12,13 @@ const getById = async (id) => {
   return result[0];
 };
 
-const getByName = async () => ({ name: 'oi' });
+const getByName = async () => null;
+
+const addProduct = async () => null;
 
 module.exports = {
   getAll,
   getById,
   getByName,
+  addProduct,
 };

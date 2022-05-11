@@ -118,6 +118,19 @@ describe('Testa o método addProduct da camada services - Products', () => {
       } catch(err) {
         expect(err.message).to.be.equal('Product already exists')
       }
-    })
+    });
+  });
+  describe('Quando o produto é cadastrado corretamente', () => {
+    const resultExecute = {id: 5, name: 'Chinelão do Yang', quantity: 15};
+    before(() => {
+      sinon.stub(productsModel, 'addProduct').resolves(resultExecute);
+    });
+    after(() => {
+      productsModel.addProduct.restore();
+    });
+    it('Retorna o objeto que foi adicionado no banco de dados', async () => {
+      const result = await productsService.addProduct();
+      expect(result).to.be.equal(resultExecute);
+     })
   })
 })
