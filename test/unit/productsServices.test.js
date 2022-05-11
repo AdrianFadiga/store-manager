@@ -90,3 +90,34 @@ describe('Testa o método getById da camada services - Products', () => {
 
   });
 });
+
+describe('Testa o método addProduct da camada services - Products', () => {
+  describe('Quando já existe um produto com o name cadastrado', () => {
+    const resultExecute = {
+      id: 3,
+      name: "Chinelo do Yang",
+      quantity: 10,
+    };
+    before(() => {
+      sinon.stub(productsModel, 'getByName')
+      .resolves(resultExecute);
+    });
+    after(() => {
+      productsModel.getByName.restore();
+    });
+    it('Lança o erro status 409', async () => {
+      try {
+      await productsService.addProduct();
+      } catch(err) {
+        expect(err.status).to.be.equal(409);
+      }
+    });
+    it('Lança a mensagem "Product" already exists', async () => {
+      try {
+        await productsService.addProduct();
+      } catch(err) {
+        expect(err.message).to.be.equal('Product already exists')
+      }
+    })
+  })
+})
