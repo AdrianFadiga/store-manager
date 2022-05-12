@@ -128,5 +128,17 @@ describe('Testa o método addProduct da camada models - products', () => {
       expect(result).to.be.includes.keys('id', 'name', 'quantity');
     });
   });
-})
+});
+
+describe('Testa o método updateProduct da camada models - Products', () => {
+  describe('Quando existe um produto com o id solicitado', () => {
+    const objMock = { id: 4, name: 'Celular do Yang', quantity: 20 };
+    it('Verifica se retorna o objeto com o produto atualizado', async () => {
+      const result = await productsModel.updateProduct(objMock.id, objMock.name, objMock.quantity);
+      expect(result).to.have.property('id', 4);
+      expect(result).to.have.property('name', 'Celular do Yang');
+      expect(result).to.have.property('quantity', 20);
+    });
+  });
+});
 

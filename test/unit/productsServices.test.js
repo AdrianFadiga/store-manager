@@ -133,6 +133,6 @@ describe('Testa o método addProduct da camada services - Products', () => {
     it('Retorna o objeto que foi adicionado no banco de dados', async () => {
       const result = await productsService.addProduct();
       expect(result).to.be.equal(resultExecute);
-     })
+     });
   })
 });
