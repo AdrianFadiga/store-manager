@@ -136,3 +136,23 @@ describe('Testa o método addProduct da camada services - Products', () => {
      });
   })
 });
+
+describe('Testa o método updateProduct da camada services - Products', () => {
+  describe('Caso o produto cadastrado não exista', () => {
+    before(() => {
+      sinon.stub(productsModel, 'getById')
+      .resolves(null);
+    });
+    after(() => {
+      productsModel.getById.restore();
+    });
+  it('Lança erro status 404 com a mensagem "Product not found"', async () => {
+    try {
+      await productsService.updateProduct();
+    } catch(err) {
+      expect(err.status).to.be.equal(404);
+      expect(err.message).to.be.equal("Product not found");
+    }
+  })
+  })
+})
