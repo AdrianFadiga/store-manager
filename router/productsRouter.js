@@ -4,6 +4,8 @@ const middleware = require('../middlewares');
 
 router.get('/:id', productsController.getById);
 
+router.delete('/:id', productsController.deleteProduct);
+
 router.post('/', middleware.validateName, 
 middleware.validateQuantity, 
  productsController.addProduct);

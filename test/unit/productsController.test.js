@@ -197,3 +197,41 @@ describe('Testa o método updateProduct da camada controller - Products', () => 
     });
   })
 });
+
+describe('Testa o método deleteProduct da camada controller - Products', () => {
+  describe('Quando o produto é deletado com sucesso', () => {
+    const request = {params: {id: 5}};
+    const response = {};
+    const next = sinon.stub().resolves();
+    before(() => {
+      sinon.stub(productsService, 'deleteProduct')
+      .resolves({status: 204});
+      response.status = sinon.stub().returns(response);
+    });
+    after(() => {
+      productsService.deleteProduct.restore();
+    });
+    it('Retorna o status 204', async () => {
+      await productsController.deleteProduct(request, response, next);
+      expect(response.status.calledWith(204)).to.be.equal(true);
+    });
+  });
+  describe('Quando o produto não é deletado', () => {
+    const request = {params: {id: 5}};
+    const response = {};
+    const next = sinon.stub().resolves();
+    const errorObj = {status: 404, message: "Product not found"};
+    before(() => {
+      response.status = sinon.stub().resolves(response);
+      sinon.stub(productsService, 'deleteProduct')
+      .throws(errorObj);
+    });
+    after(() => {
+      productsService.deleteProduct.restore();
+    });
+    it('A função next é chamada com os parâmetros status 404 e message "Product not found"', async () => {
+      await productsController.deleteProduct(request, response, next);
+      expect(next.calledWith(errorObj)).to.be.equal(true)
+    });
+  });
+});
