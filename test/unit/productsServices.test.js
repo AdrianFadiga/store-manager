@@ -173,3 +173,40 @@ describe('Testa o método updateProduct da camada services - Products', () => {
     });
   });
 });
+
+describe('Testa o método deleteProduct da camada services - Products', () => {
+  describe('Caso o produto seja deletado corretamente', () => {
+    const resultDB = {id: 5, name: 'Chinelão do Yang', quantity: 15};
+    const id = 5;
+    before(() => {
+      sinon.stub(productsModel, 'getById')
+      .resolves(resultDB)
+    });
+    after(() => {
+      productsModel.getById.restore()
+    });
+    it('Retorna o status 204, sem nenhum body', async () => {
+      const result = await productsService.deleteProduct(id);
+      expect(result.status).to.be.equal(204);
+      expect(result.body).to.be.equal(undefined);
+    });
+  });
+  describe('Caso o produto não seja encontrado', () => {
+    const id = 5;
+    before(() => {
+      sinon.stub(productsModel, 'getById')
+      .resolves(null);
+    });
+    after(() => {
+      productsModel.getById.restore();
+    });
+    it('Envia um erro status 404 e a mensagem "Product not found"', async () => {
+      try {
+        await productsService.deleteProduct(id);
+      } catch(err) {
+        expect(err.status).to.be.equal(404);
+        expect(err.message).to.be.equal('Product not found');
+      };
+    });
+  });
+});

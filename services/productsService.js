@@ -30,9 +30,17 @@ const updateProduct = async (id, name, quantity) => {
   return updateDB;
 };
 
+const deleteProduct = async (id) => {
+  const registeredId = await getById(id);
+  if (!registeredId) throw objGenerator('Product not found', 404);
+  const response = await productsModel.deleteProduct(id);
+  return response;
+};
+
 module.exports = {
   getAll,
   getById,
   addProduct,
   updateProduct,
+  deleteProduct,
 };

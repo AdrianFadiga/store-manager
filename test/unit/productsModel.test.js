@@ -154,7 +154,7 @@ describe('Testa o método deleteProduct da camada models - Products', () => {
     })
     it('Retorna uma string com o valor "Deletado"', async () => {
       const result = await productsModel.deleteProduct(id);
-      expect(result).to.be.equal(1);
+      expect(result.status).to.be.equal(204);
     });
   })
 })
