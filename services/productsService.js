@@ -23,9 +23,11 @@ const addProduct = async (name, quantity) => {
   return addToDB;
 };
 
-const updateProduct = async (id) => {
+const updateProduct = async (id, name, quantity) => {
   const result = await productsModel.getById(id);
   if (!result) throw objGenerator('Product not found', 404);
+  const updateDB = await productsModel.updateProduct(id, name, quantity);
+  return updateDB;
 };
 
 module.exports = {

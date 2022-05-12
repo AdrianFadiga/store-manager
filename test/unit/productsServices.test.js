@@ -153,6 +153,23 @@ describe('Testa o método updateProduct da camada services - Products', () => {
       expect(err.status).to.be.equal(404);
       expect(err.message).to.be.equal("Product not found");
     }
-  })
-  })
-})
+  });
+  });
+  describe('Caso o produto seja cadastrado corretamente', () => {
+    const resultDB = {id: 5, name: 'Chinelão do Yang', quantity: 15};
+    before(() => {
+      sinon.stub(productsModel, 'getById')
+      .resolves(resultDB);
+      sinon.stub(productsModel, 'updateProduct')
+      .resolves(resultDB);
+    });
+    after(() => {
+      productsModel.getById.restore();
+      productsModel.updateProduct.restore();
+    });
+    it('Retorna o objeto que foi cadastrado', async () => {
+      const result = await productsService.updateProduct(1, 'Chinelão do Yang', 15);
+      expect(result).to.be.equal(resultDB);
+    });
+  });
+});
