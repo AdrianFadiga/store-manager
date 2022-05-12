@@ -157,3 +157,43 @@ describe('Testa o método addProduct da camada Controller - Products', () => {
     });
   })
 });
+
+describe('Testa o método updateProduct da camada controller - Products', () => {
+  describe('Caso não exista um produto com o id cadastrado', () => {
+    const request = {params: {id: 5}, body: {name:"Chinelo", quantity: 15}};
+    const errorObject = {status: 404, message: "Product not found"};
+    const response = {};
+    const next = sinon.stub().resolves();
+    before(() => {
+      sinon.stub(productsService, 'updateProduct')
+      .throws(errorObject);
+    });
+    after(() => {
+      productsService.updateProduct.restore();
+    });
+    it('A função next é chamada com os parâmetros status 404 e a mensagem "Product" not found', async () => {
+      await productsController.updateProduct(request, response, next);
+      expect(next.calledWith(errorObject)).to.be.equal(true);
+    });
+  });
+  describe('Caso o produto seja cadastrado corretamente', () => {
+    const request = {params: {id: 5}, body: {name: 'Chinelo do Yang', quantity: 15}};
+    const response = {};
+    const returnObj = {id: 5, name: 'Chinelo do Yang', quantity: 15};
+    const next = sinon.stub().resolves();
+    before(() => {
+      sinon.stub(productsService, 'updateProduct')
+      .resolves(returnObj);
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+    });
+    after(() => {
+      productsService.updateProduct.restore();
+    })
+    it('Retorna o status 200 e o objeto atualizado', async () => {
+      await productsController.updateProduct(request, response, next);
+      expect(response.status.calledWith(200)).to.be.equal(true);
+      expect(response.json.calledWith(returnObj)).to.be.equal(true);
+    });
+  })
+});

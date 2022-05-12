@@ -8,6 +8,9 @@ router.post('/', middleware.validateName,
 middleware.validateQuantity, 
  productsController.addProduct);
 
+ router.put('/:id', middleware.validateName, middleware.validateQuantity,
+ productsController.updateProduct);
+
 router.get('/', productsController.getAll);
 
 module.exports = router;
