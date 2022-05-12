@@ -124,13 +124,15 @@ describe('Testa o método addProduct da camada services - Products', () => {
     const resultExecute = {id: 5, name: 'Chinelão do Yang', quantity: 15};
     before(() => {
       sinon.stub(productsModel, 'addProduct').resolves(resultExecute);
+      sinon.stub(productsModel, 'getByName').resolves(null);
     });
     after(() => {
       productsModel.addProduct.restore();
+      productsModel.getByName.restore();
     });
     it('Retorna o objeto que foi adicionado no banco de dados', async () => {
       const result = await productsService.addProduct();
       expect(result).to.be.equal(resultExecute);
      })
   })
-})
+});

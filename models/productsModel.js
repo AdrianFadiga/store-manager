@@ -12,9 +12,17 @@ const getById = async (id) => {
   return result[0];
 };
 
-const getByName = async () => null;
+const getByName = async (name) => {
+  const query = 'SELECT * FROM products WHERE name=?';
+  const [result] = await connection.execute(query, [name]);
+  return result[0];
+};
 
-const addProduct = async () => null;
+const addProduct = async (name, quantity) => {
+  const query = 'INSERT INTO products (name, quantity) VALUES (?, ?)';
+  const [result] = await connection.execute(query, [name, quantity]);
+  return { id: result.insertId, name, quantity };
+};
 
 module.exports = {
   getAll,

@@ -22,6 +22,7 @@ describe('Busca todos os produtos no BD', () => {
       expect(result).to.be.empty;
     });
   });
+
   describe('Quando existem produtos cadastrados', () => {
     it('Retorna um array', async () => {
       const result = await productsModel.getAll();
@@ -84,19 +85,48 @@ describe('Busca produto por id', () => {
     });
 
   });
-  // describe('Retorna null quando não existe produto com o id', () => {
-  //   const resultExecute = [];
-  //   before(() => {
-  //     sinon.stub(connection, 'execute')
-  //     .resolves(resultExecute);
-  //   });
-  //   after(() => {
-  //     connection.execute.restore();
-  //   })    
-  //     it('Retorna null caso não exista um produto com o determinado id', async () => {
-  //       const result = await productsModel.getById();
-  //       expect(result).to.be.equal(null);
-  //     })
-  // });
 });
+
+describe('Testa o método getByName da camada models - products', () => {
+  describe('Caso encontre o produto pelo nome no DB', () => {
+    const resultExecute = [[{id: 3, name: "Chinelão do Yang", quantity: 15}]];
+    before(() => {
+      sinon.stub(connection, 'execute')
+      .resolves(resultExecute);
+    });
+    after(() => {
+      connection.execute.restore();
+    });
+    it('Verifica se retorna um objeto', async () => {
+      const result = await productsModel.getByName();
+      expect(result).to.be.an('object');
+    });
+    it('Verifica se o objeto possui as chaves id, name e quantity', async () => {
+      const result = await productsModel.getByName();
+      expect(result).to.be.includes.keys('id', 'name', 'quantity');
+    });
+  });
+});
+
+describe('Testa o método addProduct da camada models - products', () => {
+  describe('Caso o produto seja adicionado no banco de dados', () => {
+    const name = 'Chinelão do Yang';
+    const quantity = 15;
+    before(() => {
+      sinon.stub(connection, 'execute')
+      .resolves([{insertId: 5}]);
+    });
+    after(() => {
+      connection.execute.restore();
+    })
+    it('Retorna um objeto', async () => {
+      const result = await productsModel.addProduct(name, quantity);
+      expect(result).to.be.an('object');
+      });
+    it('Retorna um objeto com as chaves id, name e quantity', async () => {
+      const result = await productsModel.addProduct(name, quantity);
+      expect(result).to.be.includes.keys('id', 'name', 'quantity');
+    });
+  });
+})
 
