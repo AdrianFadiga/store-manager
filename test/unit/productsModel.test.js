@@ -142,3 +142,19 @@ describe('Testa o método updateProduct da camada models - Products', () => {
   });
 });
 
+describe('Testa o método deleteProduct da camada models - Products', () => {
+  describe('Caso o produto seja deletado com sucesso', () => {
+    const id = 1;
+    before(() => {
+      sinon.stub(connection, 'execute')
+      .resolves([{affectedRows: 1}]);
+    })
+    after(() => {
+      connection.execute.restore();
+    })
+    it('Retorna uma string com o valor "Deletado"', async () => {
+      const result = await productsModel.deleteProduct(id);
+      expect(result).to.be.equal(1);
+    });
+  })
+})
