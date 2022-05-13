@@ -1,8 +1,8 @@
-const Joi = require('joi');
+// const Joi = require('joi');
 
-const joiProductId = Joi.object({
-  productId: Joi.number().integer().min(1).required(),
-});
+// const joiProductId = Joi.object({
+//   productId: Joi.number().integer().min(1).required(),
+// });
 
 const validateProductId = (req, res, next) => {
   const { productId } = req.body;
