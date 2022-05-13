@@ -43,7 +43,7 @@ const addSale = async (productId, quantity, insertId) => {
 };
 
 const updateSale = async (productId, quantity, saleId) => {
-  const query = 'UPDATE sales_products SET product_id = ? quantity = ? WHERE sale_id = ?';
+  const query = 'UPDATE sales_products SET product_id = ?, quantity = ? WHERE sale_id = ?';
   await connection.execute(query, [productId, quantity, saleId]);
   return { productId, quantity };
 };

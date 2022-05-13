@@ -24,8 +24,8 @@ const addSale = async (salesArray) => {
   return { id: insertId, itemsSold };
 };
 
-const updateSale = async (id, productId, quantity) => {
-  await salesModel.updateSale(id, productId, quantity);
+const updateSale = async (productId, quantity, id) => {
+  await salesModel.updateSale(productId, quantity, id);
   return { saleId: id, itemUpdated: [{ productId, quantity }] };
 };
 
