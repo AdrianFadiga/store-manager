@@ -155,3 +155,28 @@ describe('Chamada do controller addSale - Sales', () => {
     });
   })
 });
+
+describe('Chamada do controller updateSale - Sales', () => {
+  describe('Quando a venda é cadastrada com sucesso', () => {
+    const request = {body: [{ productId: 5, quantity: 15 }], params: {id: 2}};
+    const response = {};
+    const updateSaleReturn = {saleId: 5, itemUpdated: [{productId: 3, quantity: 10}]};
+    before(() => {
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+      sinon.stub(salesService, 'updateSale')
+      .resolves(updateSaleReturn);
+    });
+    after(() => {
+      salesService.updateSale.restore();
+    });
+    it('Retorna o status 200', async () => {
+      await salesController.updateSale(request, response);
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
+    it('Retorna um json com um objeto', async () => {
+      await salesController.updateSale(request, response);
+      expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
+    });
+  })
+});

@@ -115,4 +115,36 @@ describe('Testa o método addSale da camada services - Sales', () => {
       expect(itemsSold[0]).to.have.keys('productId', 'quantity');
     });
   });
-})
+});
+
+describe('Testa o método updateSale da camada services - Sales', () => {
+  const id = 2;
+  const productId = 2;
+  const quantity = 25;
+  const returnDB = {id: 2, quantity: 20};
+  before(() => {
+    sinon.stub(salesModel, 'updateSale')
+    .resolves(returnDB);
+  });
+  after(() => {
+    salesModel.updateSale.restore();
+  });
+  describe('Verifica o retorno da função', () => {
+    it('Verifica se a função retorna um objeto', async () => {
+      const result = await salesService.updateSale(id, productId, quantity);
+      expect(result).to.be.an('object');
+     });
+    it('Verifica o objeto possui as chaves saleId e itemUpdated', async () => {
+      const result = await salesService.updateSale(id, productId, quantity);
+      expect(result).to.have.keys('saleId', 'itemUpdated');
+     });
+    it('Verifica se a chave itemUpdated é um array', async () => { 
+      const {itemUpdated} = await salesService.updateSale(id, productId, quantity);
+      expect(itemUpdated).to.be.an('array');
+    });
+    it('Verifica se itemUpdated é um array de objetos', async () => { 
+      const {itemUpdated} = await salesService.updateSale(id, productId, quantity);
+      expect(itemUpdated[0]).to.have.keys('productId', 'quantity');
+    });
+  })
+});
