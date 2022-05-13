@@ -15,13 +15,10 @@ const getById = async (req, res, next) => {
   }
 };
 
-const addSale = async (req, res, next) => {
-  try {
-    const { quantity, productId } = req.body;
-    const result = await salesService.addSale(quantity, productId);
-  } catch (err) {
-    next(err);
-  }
+const addSale = async (req, res) => {
+    const { body } = req;
+    const response = await salesService.addSale(body);
+    return res.status(201).json(response);
 };
 
 module.exports = {

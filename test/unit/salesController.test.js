@@ -132,68 +132,26 @@ describe('Chamada do controller getById - Sales', () => {
 });
 
 describe('Chamada do controller addSale - Sales', () => {
-  describe('Quando a requisição é feita sem o atribuito quantity', () => {
-    const request = {
-      body: {
-        productId: 1
-      }
-    };
+  describe('Quando a venda é cadastrada com sucesso', () => {
+    const request = {body: [{ productId: 5, quantity: 15 }]};
     const response = {};
-    const next = sinon.stub().returns();
+    const addSaleReturn = {id: 5, itemsSold: [{productId: 3, quantity: 10}]};
     before(() => {
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
-      sinon.stub(salesService, 'addSale').throws({status: 400, message: '"quantity" is required'})
-    });
-    after(() => {
-      salesService.addSale.restore();
-    })
-    it('Retorna o status 400 com a mensagem "quantity" is required', async () => {
-      await salesController.addSale(request, response, next);
-      expect(next.calledWith({status: 400, message: '"quantity" is required'})).to.be.equal(true);        
-    });
-  });
-  describe('Quando a requisição é feita sem o atribuito productId', () => {
-    const request = {
-      body: {
-        quantity: 10,
-      }
-    }
-    const response = {};
-    const next = sinon.stub().returns();
-    before(() => {
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
-      sinon.stub(salesService, 'addSale').throws({status: 400, message: '"productId" is required'})
-    });
-    after(() => {
-      salesService.addSale.restore();
-    })
-    it('Retorna o status 400 com a mensagem "productId" is required', async () => { 
-      await salesController.addSale(request, response, next);
-      expect(next.calledWith({status: 400, message: '"productId" is required'})).to.be.equal(true);
-    });
-  });
-  describe('Quando a requisição é feita com o quantity menor ou igual a 0', () => {
-    const request = {
-      body: {
-        productId: 1,
-        quantity: -1,
-      }
-    };
-    const response = {};
-    const next = sinon.stub().returns();
-    before(() => {
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
-      sinon.stub(salesService, 'addSale').throws({status: 422, message: '"quantity" must be greater than or equal to 1'})
+      sinon.stub(salesService, 'addSale')
+      .resolves(addSaleReturn);
     });
     after(() => {
       salesService.addSale.restore();
     });
-    it('Retorna erro com status 422 e a mensagem "quantity" must be greater than or equal to 1', async () => {
-      await salesController.addSale(request, response, next);
-      expect(next.calledWith({status: 422, message: '"quantity" must be greater than or equal to 1'})).to.be.equal(true);
+    it('Retorna o status 201', async () => {
+      await salesController.addSale(request, response);
+      expect(response.status.calledWith(201)).to.be.equal(true);
+    });
+    it('Retorna um json com um objeto', async () => {
+      await salesController.addSale(request, response);
+      expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
     });
   })
-});
+})

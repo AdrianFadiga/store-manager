@@ -16,7 +16,12 @@ const getById = async (id) => {
   return result;
 };
 
-const addSale = async (quantity, productId) => {
+const addSale = async (salesArray) => {
+  const insertId = await salesModel.addDate();
+  const promises = salesArray.map(({ productId, quantity }) => 
+  salesModel.addSale(productId, quantity, insertId));
+  const itemsSold = await Promise.all(promises);
+  return { id: insertId, itemsSold };
 };
 
 module.exports = {

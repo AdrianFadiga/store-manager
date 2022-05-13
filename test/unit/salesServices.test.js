@@ -41,6 +41,7 @@ describe('Testa o método getAll da camada services - Sales', () => {
     });
   });
 });
+
 describe('Testa o método getById da camada services - Sales', () => {
   describe('Quando não existem vendas cadastradas', () => {
     before(() => {
@@ -87,3 +88,31 @@ describe('Testa o método getById da camada services - Sales', () => {
     });
   });
 });
+
+describe('Testa o método addSale da camada services - Sales', () => {
+  describe('Quando a venda é cadastrada com sucesso', () => {
+    const insertId = 1;
+    const salesArray = [{productId: 1, quantity: 5}, {productId: 2, quantity: 5}];
+    const returnDb = {productId: 5, quantity: 65};
+    before(() => {
+      sinon.stub(salesModel, 'addDate').resolves(insertId);
+      sinon.stub(salesModel, 'addSale').resolves(returnDb)
+    });
+    after(() => {
+      salesModel.addDate.restore();
+      salesModel.addSale.restore();
+    });
+    it('Retorna um objeto contendo as chaves id e itemsSold', async () => {
+      const result = await salesService.addSale(salesArray);
+      expect(result).to.have.keys('id', 'itemsSold');
+    });
+    it('A chave itemsSold é uma array', async () => {
+      const {itemsSold} = await salesService.addSale(salesArray);
+      expect(itemsSold).to.be.an('array');
+    });
+    it('Os objetos da array itemsSold possuem as chaves productId e quantity', async () => {
+      const {itemsSold} = await salesService.addSale(salesArray);
+      expect(itemsSold[0]).to.have.keys('productId', 'quantity');
+    });
+  });
+})
