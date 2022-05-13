@@ -119,3 +119,20 @@ describe('Testa o método addSale da camada model - Sales', () => {
     });
   });
 });
+
+describe('Testa o método updateSale da camada model - Sales', () => {
+  const resultDB = [{affectedRows: 2}];
+  before(() => {
+    sinon.stub(connection, 'execute')
+    .resolves(resultDB);
+  });
+  after(() => {
+    connection.execute.restore();
+  });
+  describe('Caso a venda seja atualizada com sucesso', () => {
+    it('Retorna um objeto com as chaves productId e quantity', async () => {
+      const result = await salesModel.updateSale();
+      expect(result).to.have.keys('productId', 'quantity');
+    });
+  });
+})

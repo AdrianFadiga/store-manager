@@ -154,4 +154,4 @@ describe('Chamada do controller addSale - Sales', () => {
       expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
     });
   })
-})
+});
