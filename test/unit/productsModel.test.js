@@ -22,8 +22,14 @@ describe('Busca todos os produtos no BD', () => {
       expect(result).to.be.empty;
     });
   });
-
   describe('Quando existem produtos cadastrados', () => {
+    before(() => {
+      sinon.stub(connection, 'execute')
+      .resolves([[{id: 2, name: 'xablau', quantity: 15}]]);
+    });
+    after(() => {
+      connection.execute.restore();
+    });
     it('Retorna um array', async () => {
       const result = await productsModel.getAll();
       expect(result).to.be.an('array');
@@ -131,8 +137,15 @@ describe('Testa o método addProduct da camada models - products', () => {
 });
 
 describe('Testa o método updateProduct da camada models - Products', () => {
-  describe('Quando existe um produto com o id solicitado', () => {
+  describe('Quando existe um produto com o id solicitado', () => {    
     const objMock = { id: 4, name: 'Celular do Yang', quantity: 20 };
+    before(() => {
+      sinon.stub(connection, 'execute')
+      .resolves([[{id: 2, name: 'xablau', quantity: 15}]]);
+    });
+    after(() => {
+      connection.execute.restore();
+    });  
     it('Verifica se retorna o objeto com o produto atualizado', async () => {
       const result = await productsModel.updateProduct(objMock.id, objMock.name, objMock.quantity);
       expect(result).to.have.property('id', 4);

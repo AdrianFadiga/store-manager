@@ -23,6 +23,13 @@ describe('Testa o método getAll da camada services - Sales', () => {
     });
   });
   describe('Quando existem produtos cadastrados', () => {
+    before(() => {
+      sinon.stub(salesModel, 'getAll')
+      .resolves([{saleId: 2, date: '22/02/2021', productId: 2, quantity: 15}]);
+    });
+    after(() => {
+      salesModel.getAll.restore();
+    });
     it('Retorna um array', async () => {
       const result = await salesService.getAll();
       expect(result).to.be.an('array');

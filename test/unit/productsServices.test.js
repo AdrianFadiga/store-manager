@@ -23,6 +23,13 @@ describe('Testa o método getAll da camada services - Products', () => {
     });
   });
   describe('Quando existem produtos cadastrados', () => {
+    before(() => {
+      sinon.stub(productsModel, 'getAll')
+      .resolves([{id: 2, name: 'xablau', quantity: 15}]);
+    });
+    after(() => {
+      productsModel.getAll.restore();
+    });
     it('Retorna um array', async () => {
       const result = await productsService.getAll();
       expect(result).to.be.an('array');
@@ -37,7 +44,7 @@ describe('Testa o método getAll da camada services - Products', () => {
     });
     it('O objeto que está no array possui os atributos id, name e quantity', async () => {
       const result = await productsService.getAll();
-      expect(result[1]).to.be.includes.all.keys('id', 'name', 'quantity');
+      expect(result[0]).to.be.includes.all.keys('id', 'name', 'quantity');
     });
   });
 });
@@ -180,10 +187,13 @@ describe('Testa o método deleteProduct da camada services - Products', () => {
     const id = 5;
     before(() => {
       sinon.stub(productsModel, 'getById')
-      .resolves(resultDB)
+      .resolves(resultDB);
+      sinon.stub(productsModel, 'deleteProduct')
+      .resolves({ status: 204 });
     });
     after(() => {
       productsModel.getById.restore()
+      productsModel.deleteProduct.restore()
     });
     it('Retorna o status 204, sem nenhum body', async () => {
       const result = await productsService.deleteProduct(id);

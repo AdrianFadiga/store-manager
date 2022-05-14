@@ -3,7 +3,7 @@ const { expect } = require('chai');
 const connection = require('../../models/connection');
 const salesModel = require('../../models/salesModel');
 
-describe('Busca todas as vendas no BD', () => {
+describe('Testa a função getAll da camada model - Sales', () => {
   describe('Quando não existe nenhuma venda cadastrada', () => {
     const resultExecute = [[]];
     before(() => {
@@ -23,6 +23,13 @@ describe('Busca todas as vendas no BD', () => {
     });
   });
   describe('Quando existem vendas cadastradas', () => {
+    before(() => {
+      sinon.stub(connection, 'execute')
+      .resolves([[{saleId: 2, date: '22/02/2022', productId: 3, quantity: 15}]]);
+    });
+    after(() => {
+      connection.execute.restore();
+    });
     it('Retorna um array', async () => {
       const result = await salesModel.getAll();
       expect(result).to.be.an('array');
