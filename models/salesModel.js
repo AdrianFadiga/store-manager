@@ -49,7 +49,7 @@ const updateSale = async (productId, quantity, saleId) => {
 };
 
 const deleteSale = async (id) => {
-  const query = 'DELETE FROM sales_products WHERE id=?';
+  const query = 'DELETE FROM sales_products WHERE sale_id=?';
   await connection.execute(query, [id]);
   return { status: 204 };
 };

@@ -180,3 +180,41 @@ describe('Chamada do controller updateSale - Sales', () => {
     });
   })
 });
+
+describe('Controller deleteSale - Sales', () => {
+  describe('Quando a deleção é realizada com sucesso', () => {
+    const request = {params: {id: 1}};
+    const response = {};
+    before(() => {
+      response.status = sinon.stub().returns(response);
+      response.send = sinon.stub().returns();
+      sinon.stub(salesService, 'deleteSale')
+      .resolves({status: 204});
+    });
+    after(() => {
+      salesService.deleteSale.restore();
+    });
+    it('Retorna o status 204', async () => {
+      await salesController.deleteSale(request, response);
+      expect(response.status.calledWith(204)).to.be.equal(true);
+    });
+  });
+  describe('Quando a venda não existe no BD', () => {
+    const request = {params: {id: 1}};
+    const response = {};
+    const next = sinon.stub().returns();
+    before(() => {
+      response.status = sinon.stub().returns(response);
+      response.send = sinon.stub().returns();
+      sinon.stub(salesService, 'deleteSale')
+      .throws({status: 404, message: 'Sale not found'});
+    });
+    after(() => {
+      salesService.deleteSale.restore();
+    });
+    it('Verifica se o next é chamado com os parâmetros status: 204 e message: "Sale not found"', async () => {
+      await salesController.deleteSale(request, response, next);
+      expect(next.calledWith({status: 404, message: 'Sale not found'})).to.be.equal(true);
+    });
+  })
+})

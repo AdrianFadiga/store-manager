@@ -31,7 +31,7 @@ const updateSale = async (productId, quantity, id) => {
 
 const deleteSale = async (id) => {
   const saleExists = await salesModel.getById(id);
-  if (!saleExists) throw objGenerator('Sale not found', 404);
+  if (!saleExists.length) throw objGenerator('Sale not found', 404);
   const result = await salesModel.deleteSale(id);
   return result;
 };

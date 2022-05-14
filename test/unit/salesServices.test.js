@@ -157,13 +157,13 @@ describe('Testa o método updateSale da camada services - Sales', () => {
 });
 
 describe('Testa o método deleteSale da camada services - Sales', () => {
-  describe('Quando o produto é deletado com sucesso', () => {
+  describe('Quando a venda é deletada com sucesso', () => {
     const id = 1;
     before(() => {
       sinon.stub(salesModel, 'deleteSale')
       .resolves({status: 204});
       sinon.stub(salesModel, 'getById')
-      .resolves({status: 204});
+      .resolves([{xablau: 'xablau'}]);
     });
     after(() => {
       salesModel.deleteSale.restore();
@@ -174,13 +174,13 @@ describe('Testa o método deleteSale da camada services - Sales', () => {
       expect(result.status).to.be.equal(204);
     });
   });
-  describe('Quando o produto com o id não é encontrado', () => {
+  describe('Quando a venda com o id não é encontrado', () => {
     const id = 1;
     before(() => {
       sinon.stub(salesModel, 'deleteSale')
       .resolves({status: 204});
       sinon.stub(salesModel, 'getById')
-      .resolves(null);
+      .resolves([]);
     });
     after(() => {
       salesModel.deleteSale.restore();
