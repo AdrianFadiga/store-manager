@@ -29,9 +29,17 @@ const updateSale = async (productId, quantity, id) => {
   return { saleId: id, itemUpdated: [{ productId, quantity }] };
 };
 
+const deleteSale = async (id) => {
+  const saleExists = await salesModel.getById(id);
+  if (!saleExists) throw objGenerator('Sale not found', 404);
+  const result = await salesModel.deleteSale(id);
+  return result;
+};
+
 module.exports = {
   getAll,
   getById,
   addSale,
   updateSale,
+  deleteSale,
 };

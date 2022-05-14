@@ -142,4 +142,21 @@ describe('Testa o método updateSale da camada model - Sales', () => {
       expect(result).to.have.keys('productId', 'quantity');
     });
   });
-})
+});
+
+describe('Testa o método deleteSale da camada model - Sales', () => {
+  const id = 2;
+  before(() => {
+    sinon.stub(connection, 'execute')
+    .resolves();
+  });
+  after(() => {
+    connection.execute.restore();
+  });
+  describe('Quando a venda é deletada com sucesso', () => {
+    it('Retorna um objeto com o status 204', async () => {
+      const {status} = await salesModel.deleteSale(id);
+      expect(status).to.be.equal(204);
+    });
+  });
+});

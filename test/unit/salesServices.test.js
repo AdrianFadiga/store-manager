@@ -155,3 +155,44 @@ describe('Testa o método updateSale da camada services - Sales', () => {
     });
   })
 });
+
+describe('Testa o método deleteSale da camada services - Sales', () => {
+  describe('Quando o produto é deletado com sucesso', () => {
+    const id = 1;
+    before(() => {
+      sinon.stub(salesModel, 'deleteSale')
+      .resolves({status: 204});
+      sinon.stub(salesModel, 'getById')
+      .resolves({status: 204});
+    });
+    after(() => {
+      salesModel.deleteSale.restore();
+      salesModel.getById.restore();
+    }); 
+    it('Retorna um objeto {status: 204}', async () => {
+      const result = await salesService.deleteSale(id);
+      expect(result.status).to.be.equal(204);
+    });
+  });
+  describe('Quando o produto com o id não é encontrado', () => {
+    const id = 1;
+    before(() => {
+      sinon.stub(salesModel, 'deleteSale')
+      .resolves({status: 204});
+      sinon.stub(salesModel, 'getById')
+      .resolves(null);
+    });
+    after(() => {
+      salesModel.deleteSale.restore();
+      salesModel.getById.restore();
+    }); 
+    it('Lança um erro status 404 e a mensagem "Sale not found"', async () => {
+      try {
+        await salesService.deleteSale(id);
+      } catch(err) {
+        expect(err.status).to.be.equal(404);
+        expect(err.message).to.be.equal('Sale not found');
+      }
+    })
+  })
+ });
