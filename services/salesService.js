@@ -11,13 +11,13 @@ const getUpdatedArray = async (saleArray, deleteSale) => {
   productsService.getById(productId)));
   const updatedProductsArray = getProductsByIdArray.reduce((acc, curr, i) => {
     acc.push({ id: curr.id,
-    name: curr.name,
-    quantity: (deleteSale 
-      ? curr.quantity + saleArray[i].quantity
-      : curr.quantity - saleArray[i].quantity) });
-    return acc; 
-}, []);
-return updatedProductsArray;
+      name: curr.name,
+      quantity: (deleteSale 
+        ? curr.quantity + saleArray[i].quantity
+        : curr.quantity - saleArray[i].quantity) });
+        return acc; 
+      }, []);
+      return updatedProductsArray;
 };
 
 const getAll = async () => {

@@ -3,6 +3,8 @@ const { expect } = require('chai');
 const salesModel = require('../../models/salesModel');
 const salesService = require('../../services/salesService');
 const productsService = require('../../services/productsService');
+const productsModel = require('../../models/productsModel');
+const connection = require('../../models/connection');
 
 describe('Testa o método getAll da camada services - Sales', () => {
   describe('Quando não existe nenhum produto cadastrado', () => {
@@ -101,16 +103,19 @@ describe('Testa o método addSale da camada services - Sales', () => {
   describe('Quando a venda é cadastrada com sucesso', () => {
     const insertId = 1;
     const salesArray = [{productId: 1, quantity: 5}];
-    const returnDb = {productId: 1, quantity: 65};
+    const returnDb = {productId: 1, quantity: 45};
     beforeEach(() => {
       sinon.stub(salesModel, 'addDate').resolves(insertId);
       sinon.stub(salesModel, 'addSale').resolves(returnDb);
-      sinon.stub(productsService, 'getById').resolves({ id: 1, name: 'Martelo de Thor', quantity: 50 })
+      sinon.stub(productsService, 'getById').resolves({ id: 1, name: 'Martelo de Thor', quantity: 50 });
+      sinon.stub(productsService, 'updateProduct').resolves();
+
     });
     afterEach(() => {
       salesModel.addDate.restore();
       salesModel.addSale.restore();
       productsService.getById.restore();
+      productsService.updateProduct.restore();
     });
     it('Retorna um objeto contendo as chaves id e itemsSold', async () => {
       const result = await salesService.addSale(salesArray);
@@ -167,12 +172,14 @@ describe('Testa o método deleteSale da camada services - Sales', () => {
       .resolves({status: 204});
       sinon.stub(salesModel, 'getById')
       .resolves([{xablau: 'xablau'}]);
-      sinon.stub(productsService, 'getById').resolves({ id: 1, name: 'Martelo de Thor', quantity: 50 })
+      sinon.stub(productsService, 'getById').resolves({ id: 1, name: 'Martelo de Thor', quantity: 50 });
+      sinon.stub(productsService, 'updateProduct').resolves();
     });
     afterEach(() => {
       salesModel.deleteSale.restore();
       salesModel.getById.restore();
       productsService.getById.restore();
+      productsService.updateProduct.restore();
     }); 
     it('Retorna um objeto {status: 204}', async () => {
       const result = await salesService.deleteSale(id);
