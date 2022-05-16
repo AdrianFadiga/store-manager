@@ -155,7 +155,7 @@ describe('Testa o método updateProduct da camada services - Products', () => {
     });
   it('Lança erro status 404 com a mensagem "Product not found"', async () => {
     try {
-      await productsService.updateProduct();
+      await productsService.updateProduct({id: 1, name: 'Xablau', quantity: 15});
     } catch(err) {
       expect(err.status).to.be.equal(404);
       expect(err.message).to.be.equal("Product not found");

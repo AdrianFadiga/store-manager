@@ -138,7 +138,9 @@ describe('Testa o método addProduct da camada models - products', () => {
 
 describe('Testa o método updateProduct da camada models - Products', () => {
   describe('Quando existe um produto com o id solicitado', () => {    
-    const objMock = { id: 4, name: 'Celular do Yang', quantity: 20 };
+    const id = 4;
+    const name = 'Celular do Yang';
+    const quantity = 20;
     before(() => {
       sinon.stub(connection, 'execute')
       .resolves([[{id: 2, name: 'xablau', quantity: 15}]]);
@@ -147,7 +149,7 @@ describe('Testa o método updateProduct da camada models - Products', () => {
       connection.execute.restore();
     });  
     it('Verifica se retorna o objeto com o produto atualizado', async () => {
-      const result = await productsModel.updateProduct(objMock.id, objMock.name, objMock.quantity);
+      const result = await productsModel.updateProduct({id, name, quantity});
       expect(result).to.have.property('id', 4);
       expect(result).to.have.property('name', 'Celular do Yang');
       expect(result).to.have.property('quantity', 20);

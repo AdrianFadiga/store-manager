@@ -15,10 +15,14 @@ const getById = async (req, res, next) => {
   }
 };
 
-const addSale = async (req, res) => {
+const addSale = async (req, res, next) => {
+  try {
     const { body } = req;
     const response = await salesService.addSale(body);
     return res.status(201).json(response);
+  } catch (err) {
+    next(err);
+  }
 };
 
 const updateSale = async (req, res) => {
