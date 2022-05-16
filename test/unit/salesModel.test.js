@@ -6,11 +6,11 @@ const salesModel = require('../../models/salesModel');
 describe('Testa a função getAll da camada model - Sales', () => {
   describe('Quando não existe nenhuma venda cadastrada', () => {
     const resultExecute = [[]];
-    before(() => {
+    beforeEach(() => {
       sinon.stub(connection, 'execute')
       .resolves(resultExecute);
     });
-    after(() => {
+    afterEach(() => {
       connection.execute.restore();
     });
     it('Retorna um array', async () => {
@@ -23,11 +23,11 @@ describe('Testa a função getAll da camada model - Sales', () => {
     });
   });
   describe('Quando existem vendas cadastradas', () => {
-    before(() => {
+    beforeEach(() => {
       sinon.stub(connection, 'execute')
       .resolves([[{saleId: 2, date: '22/02/2022', productId: 3, quantity: 15}]]);
     });
-    after(() => {
+    afterEach(() => {
       connection.execute.restore();
     });
     it('Retorna um array', async () => {
@@ -52,11 +52,11 @@ describe('Testa a função getAll da camada model - Sales', () => {
 describe('Busca venda por id', () => {
   describe('Quando não existem vendas cadastradas', () => {
     const resultExecute = [[]];
-    before(() => {
+    beforeEach(() => {
       sinon.stub(connection, 'execute')
       .resolves(resultExecute);
     });
-    after(() => {
+    afterEach(() => {
       connection.execute.restore();
     });
     it('Retorna um array', async () => {
@@ -73,11 +73,11 @@ describe('Busca venda por id', () => {
     id: 2,
     date: '2022-05-09 16:08:53'
   }]];
-  before(() => {
+  beforeEach(() => {
     sinon.stub(connection, 'execute')
     .resolves(resultExecute);
   });
-  after(() => {
+  afterEach(() => {
     connection.execute.restore();
   });
     it('Retorna um array', async () => {
@@ -94,11 +94,11 @@ describe('Busca venda por id', () => {
 describe('Testa a função addDate da camada model - Sales', () => {
   describe('Verifica o insertId', () => {
     const returnDB = [{insertId: 5}];
-    before(() => {
+    beforeEach(() => {
       sinon.stub(connection, 'execute')
       .resolves(returnDB);
     });
-    after(() => {
+    afterEach(() => {
       connection.execute.restore();
     });
     it('Espera que o insertId seja do tipo number', async () => {
@@ -113,11 +113,11 @@ describe('Testa o método addSale da camada model - Sales', () => {
     const id = 1;
     const quantity = 3;
     const insertId = 5;
-    before(() => {
+    beforeEach(() => {
       sinon.stub(connection, 'execute')
       .resolves();
     });
-    after(() => {
+    afterEach(() => {
       connection.execute.restore();
     });
     it('Retorna um objeto contendo as chaves productId e quantity', async () => {
@@ -129,11 +129,11 @@ describe('Testa o método addSale da camada model - Sales', () => {
 
 describe('Testa o método updateSale da camada model - Sales', () => {
   const resultDB = [{affectedRows: 2}];
-  before(() => {
+  beforeEach(() => {
     sinon.stub(connection, 'execute')
     .resolves(resultDB);
   });
-  after(() => {
+  afterEach(() => {
     connection.execute.restore();
   });
   describe('Caso a venda seja atualizada com sucesso', () => {
@@ -146,11 +146,11 @@ describe('Testa o método updateSale da camada model - Sales', () => {
 
 describe('Testa o método deleteSale da camada model - Sales', () => {
   const id = 2;
-  before(() => {
+  beforeEach(() => {
     sinon.stub(connection, 'execute')
     .resolves();
   });
-  after(() => {
+  afterEach(() => {
     connection.execute.restore();
   });
   describe('Quando a venda é deletada com sucesso', () => {

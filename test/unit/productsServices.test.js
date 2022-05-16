@@ -6,11 +6,11 @@ const productsService = require('../../services/productsService');
 describe('Testa o método getAll da camada services - Products', () => {
   describe('Quando não existe nenhum produto cadastrado', () => {
     const resultExecute = [[]];
-    before(() => {
+    beforeEach(() => {
       sinon.stub(productsModel, 'getAll')
       .resolves(resultExecute);
     });
-    after(() => {
+    afterEach(() => {
       productsModel.getAll.restore();
     });
     it('Retorna um array', async () => {
@@ -23,11 +23,11 @@ describe('Testa o método getAll da camada services - Products', () => {
     });
   });
   describe('Quando existem produtos cadastrados', () => {
-    before(() => {
+    beforeEach(() => {
       sinon.stub(productsModel, 'getAll')
       .resolves([{id: 2, name: 'xablau', quantity: 15}]);
     });
-    after(() => {
+    afterEach(() => {
       productsModel.getAll.restore();
     });
     it('Retorna um array', async () => {
@@ -51,11 +51,11 @@ describe('Testa o método getAll da camada services - Products', () => {
 
 describe('Testa o método getById da camada services - Products', () => {
   describe('Quando não existem produtos cadastrados', () => {
-    before(() => {
+    beforeEach(() => {
       sinon.stub(productsModel, 'getById')
       .resolves(null);
     });
-    after(() => {
+    afterEach(() => {
       productsModel.getById.restore();
     });
     it('Envia o erro de status 400', async () => {
@@ -79,11 +79,11 @@ describe('Testa o método getById da camada services - Products', () => {
     name: 'Traje de encolhimento',
     quantity: 20,
   }]];
-  before(() => {
+  beforeEach(() => {
     sinon.stub(productsModel, 'getById')
     .resolves(resultExecute);
   });
-  after(() => {
+  afterEach(() => {
     productsModel.getById.restore();
   });
     it('Retorna um objeto', async () => {
@@ -105,11 +105,11 @@ describe('Testa o método addProduct da camada services - Products', () => {
       name: "Chinelo do Yang",
       quantity: 10,
     };
-    before(() => {
+    beforeEach(() => {
       sinon.stub(productsModel, 'getByName')
       .resolves(resultExecute);
     });
-    after(() => {
+    afterEach(() => {
       productsModel.getByName.restore();
     });
     it('Lança o erro status 409', async () => {
@@ -129,11 +129,11 @@ describe('Testa o método addProduct da camada services - Products', () => {
   });
   describe('Quando o produto é cadastrado corretamente', () => {
     const resultExecute = {id: 5, name: 'Chinelão do Yang', quantity: 15};
-    before(() => {
+    beforeEach(() => {
       sinon.stub(productsModel, 'addProduct').resolves(resultExecute);
       sinon.stub(productsModel, 'getByName').resolves(null);
     });
-    after(() => {
+    afterEach(() => {
       productsModel.addProduct.restore();
       productsModel.getByName.restore();
     });
@@ -146,11 +146,11 @@ describe('Testa o método addProduct da camada services - Products', () => {
 
 describe('Testa o método updateProduct da camada services - Products', () => {
   describe('Caso o produto cadastrado não exista', () => {
-    before(() => {
+    beforeEach(() => {
       sinon.stub(productsModel, 'getById')
       .resolves(null);
     });
-    after(() => {
+    afterEach(() => {
       productsModel.getById.restore();
     });
   it('Lança erro status 404 com a mensagem "Product not found"', async () => {
@@ -164,13 +164,13 @@ describe('Testa o método updateProduct da camada services - Products', () => {
   });
   describe('Caso o produto seja cadastrado corretamente', () => {
     const resultDB = {id: 5, name: 'Chinelão do Yang', quantity: 15};
-    before(() => {
+    beforeEach(() => {
       sinon.stub(productsModel, 'getById')
       .resolves(resultDB);
       sinon.stub(productsModel, 'updateProduct')
       .resolves(resultDB);
     });
-    after(() => {
+    afterEach(() => {
       productsModel.getById.restore();
       productsModel.updateProduct.restore();
     });
@@ -185,13 +185,13 @@ describe('Testa o método deleteProduct da camada services - Products', () => {
   describe('Caso o produto seja deletado corretamente', () => {
     const resultDB = {id: 5, name: 'Chinelão do Yang', quantity: 15};
     const id = 5;
-    before(() => {
+    beforeEach(() => {
       sinon.stub(productsModel, 'getById')
       .resolves(resultDB);
       sinon.stub(productsModel, 'deleteProduct')
       .resolves({ status: 204 });
     });
-    after(() => {
+    afterEach(() => {
       productsModel.getById.restore()
       productsModel.deleteProduct.restore()
     });
@@ -203,11 +203,11 @@ describe('Testa o método deleteProduct da camada services - Products', () => {
   });
   describe('Caso o produto não seja encontrado', () => {
     const id = 5;
-    before(() => {
+    beforeEach(() => {
       sinon.stub(productsModel, 'getById')
       .resolves(null);
     });
-    after(() => {
+    afterEach(() => {
       productsModel.getById.restore();
     });
     it('Envia um erro status 404 e a mensagem "Product not found"', async () => {

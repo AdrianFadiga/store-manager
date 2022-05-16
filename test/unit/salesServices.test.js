@@ -7,11 +7,11 @@ const productsService = require('../../services/productsService');
 describe('Testa o método getAll da camada services - Sales', () => {
   describe('Quando não existe nenhum produto cadastrado', () => {
     const resultExecute = [[]];
-    before(() => {
+    beforeEach(() => {
       sinon.stub(salesModel, 'getAll')
       .resolves(resultExecute);
     });
-    after(() => {
+    afterEach(() => {
       salesModel.getAll.restore();
     });
     it('Retorna um array', async () => {
@@ -24,11 +24,11 @@ describe('Testa o método getAll da camada services - Sales', () => {
     });
   });
   describe('Quando existem produtos cadastrados', () => {
-    before(() => {
+    beforeEach(() => {
       sinon.stub(salesModel, 'getAll')
       .resolves([{saleId: 2, date: '22/02/2021', productId: 2, quantity: 15}]);
     });
-    after(() => {
+    afterEach(() => {
       salesModel.getAll.restore();
     });
     it('Retorna um array', async () => {
@@ -52,11 +52,11 @@ describe('Testa o método getAll da camada services - Sales', () => {
 
 describe('Testa o método getById da camada services - Sales', () => {
   describe('Quando não existem vendas cadastradas', () => {
-    before(() => {
+    beforeEach(() => {
       sinon.stub(salesModel, 'getById')
       .resolves([]);
     });
-    after(() => {
+    afterEach(() => {
       salesModel.getById.restore();
     });
     it('Envia o erro de status 404', async () => {
@@ -79,11 +79,11 @@ describe('Testa o método getById da camada services - Sales', () => {
       [ { date: '2022-05-11T01:15:55.000Z', productId: 3, quantity: 15 } 
     ]
   ];
-  before(() => {
+  beforeEach(() => {
     sinon.stub(salesModel, 'getById')
     .resolves(resultExecute);
   });
-  after(() => {
+  afterEach(() => {
     salesModel.getById.restore();
   });
     it('Retorna uma array', async () => {
@@ -102,12 +102,12 @@ describe('Testa o método addSale da camada services - Sales', () => {
     const insertId = 1;
     const salesArray = [{productId: 1, quantity: 5}];
     const returnDb = {productId: 1, quantity: 65};
-    before(() => {
+    beforeEach(() => {
       sinon.stub(salesModel, 'addDate').resolves(insertId);
       sinon.stub(salesModel, 'addSale').resolves(returnDb);
       sinon.stub(productsService, 'getById').resolves({ id: 1, name: 'Martelo de Thor', quantity: 50 })
     });
-    after(() => {
+    afterEach(() => {
       salesModel.addDate.restore();
       salesModel.addSale.restore();
       productsService.getById.restore();
@@ -132,11 +132,11 @@ describe('Testa o método updateSale da camada services - Sales', () => {
   const productId = 2;
   const quantity = 25;
   const returnDB = {id: 2, quantity: 20};
-  before(() => {
+  beforeEach(() => {
     sinon.stub(salesModel, 'updateSale')
     .resolves(returnDB);
   });
-  after(() => {
+  afterEach(() => {
     salesModel.updateSale.restore();
   });
   describe('Verifica o retorno da função', () => {
@@ -162,14 +162,14 @@ describe('Testa o método updateSale da camada services - Sales', () => {
 describe('Testa o método deleteSale da camada services - Sales', () => {
   describe('Quando a venda é deletada com sucesso', () => {
     const id = 1;
-    before(() => {
+    beforeEach(() => {
       sinon.stub(salesModel, 'deleteSale')
       .resolves({status: 204});
       sinon.stub(salesModel, 'getById')
       .resolves([{xablau: 'xablau'}]);
       sinon.stub(productsService, 'getById').resolves({ id: 1, name: 'Martelo de Thor', quantity: 50 })
     });
-    after(() => {
+    afterEach(() => {
       salesModel.deleteSale.restore();
       salesModel.getById.restore();
       productsService.getById.restore();
@@ -181,13 +181,13 @@ describe('Testa o método deleteSale da camada services - Sales', () => {
   });
   describe('Quando a venda com o id não é encontrado', () => {
     const id = 1;
-    before(() => {
+    beforeEach(() => {
       sinon.stub(salesModel, 'deleteSale')
       .resolves({status: 204});
       sinon.stub(salesModel, 'getById')
       .resolves([]);
     });
-    after(() => {
+    afterEach(() => {
       salesModel.deleteSale.restore();
       salesModel.getById.restore();
     }); 

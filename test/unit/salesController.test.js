@@ -8,13 +8,13 @@ describe('Chamada do controller getAll - Sales', () => {
   describe('Quando não existem vendas cadastradas', () => {
     const request = {};
     const response = {};
-    before(() => {
+    beforeEach(() => {
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
 
       sinon.stub(salesService, 'getAll').resolves([]);
     });
-    after(() => {
+    afterEach(() => {
       salesService.getAll.restore();
     });
     it('é retornado o método status passando o código 200', async () => {
@@ -49,7 +49,7 @@ describe('Chamada do controller getAll - Sales', () => {
     ]
     const response = {};
     const request = {};
-    before(() => {
+    beforeEach(() => {
       request.body = {};
       response.status = sinon.stub()
         .returns(response);
@@ -58,7 +58,7 @@ describe('Chamada do controller getAll - Sales', () => {
       sinon.stub(salesService, 'getAll')
         .resolves(salesMock);
     });
-    after(() => {
+    afterEach(() => {
       salesService.getAll.restore();
     });
     it('É retornado o método status com o código 200', async () => {
@@ -90,7 +90,7 @@ describe('Chamada do controller getById - Sales', () => {
       "quantity": 10
     }
   ];
-  before(() => {
+  beforeEach(() => {
     request.body = {};
     response.status = sinon.stub()
       .returns(response);
@@ -99,7 +99,7 @@ describe('Chamada do controller getById - Sales', () => {
     sinon.stub(salesService, 'getById')
       .resolves(salesMock);
   });
-  after(() => {
+  afterEach(() => {
     salesService.getById.restore();
   });
    it('Retorna status code 200', async () => {
@@ -116,12 +116,12 @@ describe('Chamada do controller getById - Sales', () => {
    const response = {};
    const errorObj = {status: 404, message: "Sale not found"};
    const next = sinon.stub().returns();
-   before(() => {
+   beforeEach(() => {
      response.status = sinon.stub().returns(response);
      response.json = sinon.stub().returns();
      sinon.stub(salesService, 'getById').throws(errorObj);
    });
-   after(() => {
+   afterEach(() => {
      salesService.getById.restore();
    });
    it('Retorna status code 404 e a mensagem "Sale not found"', async () => { 
@@ -136,13 +136,13 @@ describe('Chamada do controller addSale - Sales', () => {
     const request = {body: [{ productId: 5, quantity: 15 }]};
     const response = {};
     const addSaleReturn = {id: 5, itemsSold: [{productId: 3, quantity: 10}]};
-    before(() => {
+    beforeEach(() => {
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
       sinon.stub(salesService, 'addSale')
       .resolves(addSaleReturn);
     });
-    after(() => {
+    afterEach(() => {
       salesService.addSale.restore();
     });
     it('Retorna o status 201', async () => {
@@ -161,13 +161,13 @@ describe('Chamada do controller updateSale - Sales', () => {
     const request = {body: [{ productId: 5, quantity: 15 }], params: {id: 2}};
     const response = {};
     const updateSaleReturn = {saleId: 5, itemUpdated: [{productId: 3, quantity: 10}]};
-    before(() => {
+    beforeEach(() => {
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
       sinon.stub(salesService, 'updateSale')
       .resolves(updateSaleReturn);
     });
-    after(() => {
+    afterEach(() => {
       salesService.updateSale.restore();
     });
     it('Retorna o status 200', async () => {
@@ -185,13 +185,13 @@ describe('Controller deleteSale - Sales', () => {
   describe('Quando a deleção é realizada com sucesso', () => {
     const request = {params: {id: 1}};
     const response = {};
-    before(() => {
+    beforeEach(() => {
       response.status = sinon.stub().returns(response);
       response.send = sinon.stub().returns();
       sinon.stub(salesService, 'deleteSale')
       .resolves({status: 204});
     });
-    after(() => {
+    afterEach(() => {
       salesService.deleteSale.restore();
     });
     it('Retorna o status 204', async () => {
@@ -203,13 +203,13 @@ describe('Controller deleteSale - Sales', () => {
     const request = {params: {id: 1}};
     const response = {};
     const next = sinon.stub().returns();
-    before(() => {
+    beforeEach(() => {
       response.status = sinon.stub().returns(response);
       response.send = sinon.stub().returns();
       sinon.stub(salesService, 'deleteSale')
       .throws({status: 404, message: 'Sale not found'});
     });
-    after(() => {
+    afterEach(() => {
       salesService.deleteSale.restore();
     });
     it('Verifica se o next é chamado com os parâmetros status: 204 e message: "Sale not found"', async () => {

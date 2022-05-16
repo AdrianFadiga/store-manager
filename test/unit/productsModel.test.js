@@ -6,11 +6,11 @@ const productsModel = require('../../models/productsModel');
 describe('Busca todos os produtos no BD', () => {
   describe('Quando não existe nenhum produto cadastrado', () => {
     const resultExecute = [[]];
-    before(() => {
+    beforeEach(() => {
       sinon.stub(connection, 'execute')
       .resolves(resultExecute);
     });
-    after(() => {
+    afterEach(() => {
       connection.execute.restore();
     });
     it('Retorna um array', async () => {
@@ -23,11 +23,11 @@ describe('Busca todos os produtos no BD', () => {
     });
   });
   describe('Quando existem produtos cadastrados', () => {
-    before(() => {
+    beforeEach(() => {
       sinon.stub(connection, 'execute')
       .resolves([[{id: 2, name: 'xablau', quantity: 15}]]);
     });
-    after(() => {
+    afterEach(() => {
       connection.execute.restore();
     });
     it('Retorna um array', async () => {
@@ -52,11 +52,11 @@ describe('Busca todos os produtos no BD', () => {
 describe('Busca produto por id', () => {
   describe('Quando não existem produtos cadastrados', () => {
     const resultExecute = [[{}]];
-    before(() => {
+    beforeEach(() => {
       sinon.stub(connection, 'execute')
       .resolves(resultExecute);
     });
-    after(() => {
+    afterEach(() => {
       connection.execute.restore();
     });
     it('Retorna um object', async () => {
@@ -74,11 +74,11 @@ describe('Busca produto por id', () => {
     name: 'Traje de encolhimento',
     quantity: 20,
   }]];
-  before(() => {
+  beforeEach(() => {
     sinon.stub(connection, 'execute')
     .resolves(resultExecute);
   });
-  after(() => {
+  afterEach(() => {
     connection.execute.restore();
   });
     it('Retorna um objeto', async () => {
@@ -96,11 +96,11 @@ describe('Busca produto por id', () => {
 describe('Testa o método getByName da camada models - products', () => {
   describe('Caso encontre o produto pelo nome no DB', () => {
     const resultExecute = [[{id: 3, name: "Chinelão do Yang", quantity: 15}]];
-    before(() => {
+    beforeEach(() => {
       sinon.stub(connection, 'execute')
       .resolves(resultExecute);
     });
-    after(() => {
+    afterEach(() => {
       connection.execute.restore();
     });
     it('Verifica se retorna um objeto', async () => {
@@ -118,11 +118,11 @@ describe('Testa o método addProduct da camada models - products', () => {
   describe('Caso o produto seja adicionado no banco de dados', () => {
     const name = 'Chinelão do Yang';
     const quantity = 15;
-    before(() => {
+    beforeEach(() => {
       sinon.stub(connection, 'execute')
       .resolves([{insertId: 5}]);
     });
-    after(() => {
+    afterEach(() => {
       connection.execute.restore();
     })
     it('Retorna um objeto', async () => {
@@ -141,11 +141,11 @@ describe('Testa o método updateProduct da camada models - Products', () => {
     const id = 4;
     const name = 'Celular do Yang';
     const quantity = 20;
-    before(() => {
+    beforeEach(() => {
       sinon.stub(connection, 'execute')
       .resolves([[{id: 2, name: 'xablau', quantity: 15}]]);
     });
-    after(() => {
+    afterEach(() => {
       connection.execute.restore();
     });  
     it('Verifica se retorna o objeto com o produto atualizado', async () => {
@@ -160,11 +160,11 @@ describe('Testa o método updateProduct da camada models - Products', () => {
 describe('Testa o método deleteProduct da camada models - Products', () => {
   describe('Caso o produto seja deletado com sucesso', () => {
     const id = 1;
-    before(() => {
+    beforeEach(() => {
       sinon.stub(connection, 'execute')
       .resolves([{affectedRows: 1}]);
     })
-    after(() => {
+    afterEach(() => {
       connection.execute.restore();
     })
     it('Retorna uma string com o valor "Deletado"', async () => {

@@ -8,13 +8,13 @@ describe('Chamada do controller getAll Products', () => {
   describe('Quando não existem produtos cadastrados', () => {
     const request = {};
     const response = {};
-    before(() => {
+    beforeEach(() => {
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
 
       sinon.stub(productsService, 'getAll').resolves([]);
     });
-    after(() => {
+    afterEach(() => {
       productsService.getAll.restore();
     });
     it('é retornado o método status passando o código 200', async () => {
@@ -44,7 +44,7 @@ describe('Chamada do controller getAll Products', () => {
     }]
     const response = {};
     const request = {};
-    before(() => {
+    beforeEach(() => {
       request.body = {};
       response.status = sinon.stub()
         .returns(response);
@@ -53,7 +53,7 @@ describe('Chamada do controller getAll Products', () => {
       sinon.stub(productsService, 'getAll')
         .resolves(productsMock);
     });
-    after(() => {
+    afterEach(() => {
       productsService.getAll.restore();
     });
     it('É retornado o método status com o código 200', async () => {
@@ -78,7 +78,7 @@ describe('Chamada do controller getById - Products', () => {
       "name": "Martelo de Thor",
       "quantity": 10
     };
-   before(() => {
+   beforeEach(() => {
      request.body = {};
      response.status = sinon.stub()
        .returns(response);
@@ -87,7 +87,7 @@ describe('Chamada do controller getById - Products', () => {
      sinon.stub(productsService, 'getById')
        .resolves(productsMock);
    });
-   after(() => {
+   afterEach(() => {
      productsService.getById.restore();
    });
     it('Retorna status code 200', async () => {
@@ -104,12 +104,12 @@ describe('Chamada do controller getById - Products', () => {
     const response = {};
     const errorObj = {status: 404, message: "Product not found"};
     const next = sinon.stub().returns();
-    before(() => {
+    beforeEach(() => {
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
       sinon.stub(productsService, 'getById').throws(errorObj);
     });
-    after(() => {
+    afterEach(() => {
       productsService.getById.restore();
     });
     it('Retorna status code 404 e a mensagem "Product not found"', async () => { 
@@ -125,12 +125,12 @@ describe('Testa o método addProduct da camada Controller - Products', () => {
     const errorMessage = {message: "Product already exists", status: 409}
     const request = {body: {name: 'Xablau', quantity: 15}};
     const response = {};
-    before(() => {
+    beforeEach(() => {
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
       sinon.stub(productsService, 'addProduct').throws(errorMessage);
     });
-    after(() => {
+    afterEach(() => {
       productsService.addProduct.restore();
     })
     it('Retorna um erro com a mensagem "Product already exists" e o status 409', async () => {
@@ -142,13 +142,13 @@ describe('Testa o método addProduct da camada Controller - Products', () => {
     const request = {body: {name: "Chinelão do Yang", quantity: 15}};
     const response = {};
     const responseObj = {id: 3, name: "Chinelão do Yang", quantity: 15};
-    before(() => {
+    beforeEach(() => {
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
       sinon.stub(productsService, 'addProduct')
       .resolves(responseObj);
     });
-    after(() => {
+    afterEach(() => {
       productsService.addProduct.restore();
     })
     it('Retorna um objeto JSON com o status 201', async () => {
@@ -164,11 +164,11 @@ describe('Testa o método updateProduct da camada controller - Products', () => 
     const errorObject = {status: 404, message: "Product not found"};
     const response = {};
     const next = sinon.stub().resolves();
-    before(() => {
+    beforeEach(() => {
       sinon.stub(productsService, 'updateProduct')
       .throws(errorObject);
     });
-    after(() => {
+    afterEach(() => {
       productsService.updateProduct.restore();
     });
     it('A função next é chamada com os parâmetros status 404 e a mensagem "Product" not found', async () => {
@@ -181,13 +181,13 @@ describe('Testa o método updateProduct da camada controller - Products', () => 
     const response = {};
     const returnObj = {id: 5, name: 'Chinelo do Yang', quantity: 15};
     const next = sinon.stub().resolves();
-    before(() => {
+    beforeEach(() => {
       sinon.stub(productsService, 'updateProduct')
       .resolves(returnObj);
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
     });
-    after(() => {
+    afterEach(() => {
       productsService.updateProduct.restore();
     })
     it('Retorna o status 200 e o objeto atualizado', async () => {
@@ -203,12 +203,12 @@ describe('Testa o método deleteProduct da camada controller - Products', () => 
     const request = {params: {id: 5}};
     const response = {};
     const next = sinon.stub().resolves();
-    before(() => {
+    beforeEach(() => {
       sinon.stub(productsService, 'deleteProduct')
       .resolves({status: 204});
       response.status = sinon.stub().returns(response);
     });
-    after(() => {
+    afterEach(() => {
       productsService.deleteProduct.restore();
     });
     it('Retorna o status 204', async () => {
@@ -221,12 +221,12 @@ describe('Testa o método deleteProduct da camada controller - Products', () => 
     const response = {};
     const next = sinon.stub().resolves();
     const errorObj = {status: 404, message: "Product not found"};
-    before(() => {
+    beforeEach(() => {
       response.status = sinon.stub().resolves(response);
       sinon.stub(productsService, 'deleteProduct')
       .throws(errorObj);
     });
-    after(() => {
+    afterEach(() => {
       productsService.deleteProduct.restore();
     });
     it('A função next é chamada com os parâmetros status 404 e message "Product not found"', async () => {
